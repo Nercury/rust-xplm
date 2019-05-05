@@ -22,7 +22,7 @@ pub enum Cursor {
 
 impl Cursor {
     /// Converts this cursor into an XPLMCursorStatus
-    fn as_xplm(&self) -> xplm_sys::XPLMCursorStatus {
+    pub fn as_xplm(&self) -> xplm_sys::XPLMCursorStatus {
         match *self {
             Cursor::Default => xplm_sys::xplm_CursorDefault as xplm_sys::XPLMCursorStatus,
             Cursor::Arrow => xplm_sys::xplm_CursorArrow as xplm_sys::XPLMCursorStatus,
@@ -542,7 +542,7 @@ pub struct KeyEvent {
 
 impl KeyEvent {
     /// Creates a key event from XPLM key information
-    fn from_xplm(
+    pub fn from_xplm(
         key: c_char,
         flags: xplm_sys::XPLMKeyFlags,
         virtual_key: c_char,
@@ -608,7 +608,7 @@ impl KeyEvent {
 quick_error! {
     /// Key event creation errors
     #[derive(Debug)]
-    enum KeyEventError {
+    pub enum KeyEventError {
         InvalidFlags(flags: xplm_sys::XPLMKeyFlags) {
             description("unexpected combination of key flags")
             display("Unexpected key flags {:b}", flags)
@@ -633,7 +633,7 @@ pub enum MouseAction {
 }
 
 impl MouseAction {
-    fn from_xplm(status: xplm_sys::XPLMMouseStatus) -> Option<MouseAction> {
+    pub fn from_xplm(status: xplm_sys::XPLMMouseStatus) -> Option<MouseAction> {
         if status == xplm_sys::xplm_MouseDown as xplm_sys::XPLMMouseStatus {
             Some(MouseAction::Down)
         } else if status == xplm_sys::xplm_MouseDrag as xplm_sys::XPLMMouseStatus {
@@ -657,7 +657,7 @@ pub struct MouseEvent {
 
 impl MouseEvent {
     /// Creates a new event
-    fn new(position: Point<i32>, action: MouseAction) -> Self {
+    pub fn new(position: Point<i32>, action: MouseAction) -> Self {
         MouseEvent {
             position: position,
             action: action,
@@ -687,7 +687,7 @@ pub struct ScrollEvent {
 
 impl ScrollEvent {
     /// Creates a new event
-    fn new(position: Point<i32>, scroll_x: i32, scroll_y: i32) -> Self {
+    pub fn new(position: Point<i32>, scroll_x: i32, scroll_y: i32) -> Self {
         ScrollEvent {
             position: position,
             scroll_x: scroll_x,
